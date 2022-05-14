@@ -62,7 +62,7 @@ log:
 # Set folder levels to each structure
 folder_level:
   # main modules
-  mian:
+  main:
     ignore: False
     doc: True
   # support
