@@ -21,7 +21,7 @@ def new(output_dir=""):
     dir_path = os.getcwd()
     dirname = output_dir
     output_dir = os.path.join(dir_path, dirname)
-    mksci_config = os.path.join(dir_path, ".mksci")
+    mksci_config = os.path.join(output_dir, ".mksci")
     if len(output_dir) > 1:
         if not os.path.exists(output_dir):
             logger.info(f"Creating project directory: {output_dir}")
@@ -87,5 +87,6 @@ def init():
 
 
 # 测试代码
-# new("testproject")
-init()
+if __name__ == "__main__":
+    new("testproject")
+    init()

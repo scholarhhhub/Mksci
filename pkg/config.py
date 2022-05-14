@@ -43,7 +43,8 @@ def getKV(dictionary, k, key, configs):
 
 
 def getConfig(config_name):
-    dir_path = os.path.abspath(os.path.dirname(__file__))
+    # dir_path = os.path.abspath(os.path.dirname(__file__))
+    dir_path = os.getcwd()
     config_path = os.path.join(dir_path, config_name)
     if os.path.exists(config_path):
         config = read(config_path)
@@ -60,5 +61,5 @@ def getConfig(config_name):
 
 
 # 测试代码
-config = getConfig("config.yaml")
-print(config)
+# config = getConfig("config.yaml")
+# print(config)
