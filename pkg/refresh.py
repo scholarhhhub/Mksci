@@ -2,9 +2,10 @@ import logging
 import os
 import uuid
 
-import config
+from . import config
 
 all_files = []
+
 
 # config_name为config.yaml绝对路径
 def refreshFile(path, file, config_name):
@@ -92,9 +93,9 @@ def refreshAll():
     getFiles(docs_path)
     # print(all_files)
     for file in all_files:
-        if not "generated" in file:
+        if "generated" not in file:
             newfile = refreshFile(docs_path, file, config_name)
-            if newfile == None:
+            if newfile is None:
                 continue
             else:
                 pass

@@ -1,12 +1,13 @@
 # encoding:utf-8
 from setuptools import find_packages, setup
 
-from pkg import init
+from pkg import __version__, description
 
 setup(
     name="Mksci",
-    version=init.__version__,
-    description="Project Managing Tools",
+    version=__version__,
+    keywords=("mksci"),
+    description=description,
     author="SongshGeo",
     packages=find_packages(),
     include_package_data=True,
