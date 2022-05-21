@@ -12,20 +12,20 @@ Options:
 """
 import os
 
-import init
-import project
-import refresh
+from .__init__ import __version__
+from .project import new, init
+from .refresh import refreshFile, refreshAll
 from docopt import docopt
 
 
 def cli():
-    arguments = docopt(__doc__, version=init.__version__)
+    arguments = docopt(__doc__, version=__version__)
     if arguments.get("new"):
         dir_path = arguments["<directory>"]
         print(arguments["<directory>"])
-        project.new(dir_path)
+        new(dir_path)
     elif arguments.get("init"):
-        project.init()
+        init()
     elif arguments.get("refresh"):
         if arguments["<file>"]:
             filename = arguments["<file>"]
@@ -37,13 +37,13 @@ def cli():
                 config_name = "config.yaml"
             file = os.path.join(docs_path, filename)
             if os.path.exists(file):
-                refresh.refreshFile(docs_path, file, config_name)
+                refreshFile(docs_path, file, config_name)
             else:
                 raise FileNotFoundError(
                     f"{filename} cannot be found in doc folder. Please move it into doc folder."
                 )
         else:
-            refresh.refreshAll()
+            refreshAll()
     else:
         pass
 
