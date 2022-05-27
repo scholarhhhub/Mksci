@@ -50,7 +50,7 @@ def getConfig(config_name):
         config = read(config_path)
     else:
         raise FileNotFoundError(
-            f"{dir_path} is not a Mksci project directory.Please run 'mksci project init' first"
+            f"{dir_path} is not a Mksci project directory.Please run 'mksci project init' first."
         )
 
     configs = {}

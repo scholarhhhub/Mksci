@@ -14,16 +14,16 @@ def refreshFile(path, file, config_name):
         os.mkdir(log_path)
     else:
         pass
-    logging.basicConfig(
-        filename=os.path.join(log_path, "refresh.log"),
-        format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S ",
-        level=logging.INFO,
-    )
-    logger = logging.getLogger()
-    KZT = logging.StreamHandler()
-    KZT.setLevel(logging.DEBUG)
-    logger.addHandler(KZT)
+    # logging.basicConfig(
+    #     filename=os.path.join(log_path, "refresh.log"),
+    #     format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
+    #     datefmt="%Y-%m-%d %H:%M:%S ",
+    #     level=logging.INFO,
+    # )
+    # logger = logging.getLogger()
+    # KZT = logging.StreamHandler()
+    # KZT.setLevel(logging.DEBUG)
+    # logger.addHandler(KZT)
     config_path = os.path.join(os.getcwd(), config_name)
     configs = config.getConfig(config_path)
     filename = os.path.basename(file)
@@ -53,13 +53,16 @@ def refreshFile(path, file, config_name):
         text = text.replace(pattern, cv)
     with open(newfile_path, "w", encoding="utf-8") as f:
         f.write(text)
-    logger.info(f"{newfile}={os.path.basename(file)}+{config_name}")
+    # logger.info(f"{newfile}={os.path.basename(file)}+{config_name}")
+    # print("newfile1:", newfile)
     return newfile
 
 
 def getFiles(path):
     if not os.path.isdir(path):
-        raise FileNotFoundError(f"{path} is not a folder.")
+        raise FileNotFoundError(
+            f"{os.path.dirname(path)} is not a Mksci project directory. Please run 'mksci project init' first."
+        )
     else:
         file_list = os.listdir(path)
         for file in file_list:
@@ -70,38 +73,70 @@ def getFiles(path):
                 all_files.append(file_path)
 
 
-def refreshAll():
-    # log_path = os.path.join(os.getcwd(), ".mksci")
-    # if not os.path.exists(log_path):
-    #     os.mkdir(log_path)
-    # else:
-    #     pass
-    # logging.basicConfig(
-    #     filename=os.path.join(log_path, "refresh.log"),
-    #     format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
-    #     datefmt="%Y-%m-%d %H:%M:%S ",
-    #     level=logging.INFO,
-    # )
-    # logger = logging.getLogger()
-    # KZT = logging.StreamHandler()
-    # KZT.setLevel(logging.DEBUG)
-    # logger.addHandler(KZT)
+def refreshSingleFile(path, file, config_name):
+    log_path = os.path.join(os.getcwd(), ".mksci")
+    if not os.path.exists(log_path):
+        os.mkdir(log_path)
+    else:
+        pass
+    logging.basicConfig(
+        filename=os.path.join(log_path, "refresh.log"),
+        format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S ",
+        level=logging.INFO,
+    )
+    logger = logging.getLogger()
+    KZT = logging.StreamHandler()
+    KZT.setLevel(logging.DEBUG)
+    logger.addHandler(KZT)
+    logging.basicConfig(
+        filename=os.path.join(log_path, "refresh.log"),
+        format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S ",
+        level=logging.INFO,
+    )
+    logger = logging.getLogger()
+    KZT = logging.StreamHandler()
+    KZT.setLevel(logging.DEBUG)
+    logger.addHandler(KZT)
+    newfile = refreshFile(path, file, config_name)
+    logger.info(f"{newfile}={os.path.basename(file)}+{config_name}")
+
+
+def refreshAll(config_name):
+    log_path = os.path.join(os.getcwd(), ".mksci")
+    if not os.path.exists(log_path):
+        os.mkdir(log_path)
+    else:
+        pass
+    logging.basicConfig(
+        filename=os.path.join(log_path, "refresh.log"),
+        format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S ",
+        level=logging.INFO,
+    )
+    logger = logging.getLogger()
+    KZT = logging.StreamHandler()
+    KZT.setLevel(logging.DEBUG)
+    logger.addHandler(KZT)
     dir_path = os.getcwd()
     docs_path = os.path.join(dir_path, "docs")
     # config_path = os.path.join(dir_path, "config.yaml")
-    config_name = "config.yaml"
+    # config_name = "config.yaml"
     getFiles(docs_path)
     # print(all_files)
     for file in all_files:
-        if "generated" not in file:
+        if "generated" not in file and ".mksci" not in file:
             newfile = refreshFile(docs_path, file, config_name)
+            # print("newfile2:", newfile)
+            # logger.info(f"{newfile}={os.path.basename(file)}+{config_name}")
             if newfile is None:
                 continue
             else:
-                pass
-                # logger.info(
-                #     f"{newfile}={os.path.basename(file)}+{config_name}"
-                # )
+                # pass
+                logger.info(
+                    f"{newfile}={os.path.basename(file)}+{config_name}"
+                )
 
 
 # 测试代码
