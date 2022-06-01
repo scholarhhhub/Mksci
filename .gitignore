@@ -4,3 +4,6 @@ Mksci.egg-info
 build
 .vscode
 dist
+test
+tests
+*.log

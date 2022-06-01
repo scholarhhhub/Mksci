@@ -16,7 +16,7 @@ from docopt import docopt
 
 from .__init__ import __version__
 from .project import init, new
-from .refresh import refreshAll, refreshSingleFile
+from .refresh import refresh_all, refresh_single_file
 
 
 def cli():
@@ -38,7 +38,7 @@ def cli():
                 config_name = "config.yaml"
             file = os.path.join(docs_path, filename)
             if os.path.exists(file):
-                refreshSingleFile(docs_path, file, config_name)
+                refresh_single_file(docs_path, file, config_name)
             else:
                 raise FileNotFoundError(
                     f"{filename} cannot be found in doc folder. Please move it into doc folder."
@@ -48,14 +48,14 @@ def cli():
                 config_name = arguments["<config>"]
             else:
                 config_name = "config.yaml"
-            refreshAll(config_name)
+            refresh_all(config_name)
         else:
             if arguments["<config>"]:
                 config_name = arguments["<config>"]
-                refreshAll(config_name)
+                refresh_all(config_name)
             else:
                 config_name = "config.yaml"
-                refreshAll(config_name)
+                refresh_all(config_name)
     else:
         pass
 
