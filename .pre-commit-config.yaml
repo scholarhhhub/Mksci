@@ -13,16 +13,27 @@ repos:
           - id: trailing-whitespace
     # Black formats the Python code
     - repo: https://github.com/psf/black
-      rev: 22.3.0
+      rev: 21.12b0
       hooks:
           - id: black
-    # # Flake8 lints the Python code
-    # - repo: https://github.com/pycqa/flake8
-    #   rev: 4.0.1
-    #   hooks:
-    #       - id: flake8
+    # Flake8 lints the Python code
+    - repo: https://github.com/pycqa/flake8
+      rev: 4.0.1
+      hooks:
+          - id: flake8
     # Isort sorts the imports
     - repo: https://github.com/pycqa/isort
-      rev: 5.5.2
+      rev: 5.10.1
       hooks:
         - id: isort
+
+#     Expensive tests that can't be run on CI and only run on push
+#    - repo: local
+#      hooks:
+#          - id: expensive-tests
+#            name:  expensive-tests
+#	    stages: [push]
+#	    entry: pytest my_lib_tests
+#	    language: system
+#	    always_run: true
+#	    pass_filenames: false
