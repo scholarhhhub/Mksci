@@ -9,10 +9,11 @@ from .unit_base import ItemBase, UnitBase
 
 
 class AnalystItem(ItemBase):
-    def __init__(self, data_item, method_item, **kwargs):
+    def __init__(self, data_item, method_item, parameters=None, **kwargs):
         super().__init__(**kwargs)
         self._data = data_item
         self._method = method_item
+        self._parameters = parameters
         self._is_checked = False
         self._results = None
 
@@ -27,6 +28,10 @@ class AnalystItem(ItemBase):
     @property
     def method(self):
         return self._method
+
+    @property
+    def parameters(self):
+        return self._parameters
 
     @property
     def is_checked(self):
@@ -47,11 +52,11 @@ class AnalystItem(ItemBase):
         self.is_checked = self.obj(*argv, **kwargs)
         return self.is_checked
 
-    def do_analysis(self, save_mode=False, *argv, **kwargs):
+    def do_analysis(self, safe_mode=False, *argv, **kwargs):
         # TODO: Safe mode -- check it before do analysis.
-        results = self.method.function(
-            self.data.obj, self.method.parameters, *argv, **kwargs
-        )
+        if self.parameters:
+            kwargs.update(self.parameters)
+        results = self.method.function(self.data, *argv, **kwargs)
         self._results = results
         return results
         pass
@@ -62,12 +67,19 @@ class Analyst(UnitBase):
         super().__init__(unit_name=name, **kwargs)
 
     def add_analyst_item(
-        self, name, description, data_item, method_item, check=None
+        self,
+        name,
+        description,
+        data_item,
+        method_item,
+        parameters=None,
+        check=None,
     ):
         item = AnalystItem(
             obj=check,
             data_item=data_item,
             method_item=method_item,
+            parameters=parameters,
             name=name,
             description=description,
         )
@@ -75,6 +87,15 @@ class Analyst(UnitBase):
         item.update_metadata("method", method_item.name)
         self.add_item(item)
         return item
+
+    def do_all(self):
+        do_this_time = []
+        for item in self.items:
+            analysis = self.get_item(item)
+            if analysis.results is None:
+                analysis.do_analysis()
+                do_this_time.append(analysis.name)
+        return do_this_time
 
     def report(self, show=True, show_notes=False, max_width=30):
         table = super().report(show=False, show_notes=show_notes)
