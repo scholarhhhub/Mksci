@@ -3,6 +3,7 @@ import os
 import uuid
 
 from . import config
+from . import pattern
 
 all_files = []
 
@@ -69,8 +70,9 @@ def refresh_file(path, file, config_name):
         cv = str(configs.get(ck))
         # print(ck,cv)
         # 这里用一下正则吧，不要替换，容易出现空格什么之类的问题
-        pattern = "{%" + ck + "%}"
-        text = text.replace(pattern, cv)
+        _, reg_pattern = pattern.get_doc_pattern(ck)
+        text = pattern.replace_with_pattern(reg_pattern, cv, text)
+        # text = text.replace(pattern, cv)
     with open(newfile_path, "w", encoding="utf-8") as f:
         f.write(text)
     # logger.info(f"{newfile}={os.path.basename(file)}+{config_name}")
