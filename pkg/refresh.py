@@ -2,39 +2,34 @@ import logging
 import os
 import uuid
 
-from . import config
-from . import pattern
+from . import config, pattern
 
 all_files = []
 
-
-def refresh_log():
-    log_path = os.path.join(os.getcwd(), ".mksci")
-    if not os.path.exists(log_path):
-        os.mkdir(log_path)
-    else:
-        pass
-    logging.basicConfig(
-        filename=os.path.join(log_path, "refresh.log"),
-        format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S ",
-        level=logging.INFO,
-    )
-    logger = logging.getLogger()
-    KZT = logging.StreamHandler()
-    KZT.setLevel(logging.DEBUG)
-    logger.addHandler(KZT)
-    logging.basicConfig(
-        filename=os.path.join(log_path, "refresh.log"),
-        format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S ",
-        level=logging.INFO,
-    )
-    logger = logging.getLogger()
-    KZT = logging.StreamHandler()
-    KZT.setLevel(logging.DEBUG)
-    logger.addHandler(KZT)
-    return logger
+log_path = os.path.join(os.getcwd(), ".mksci")
+if not os.path.exists(log_path):
+    os.mkdir(log_path)
+else:
+    pass
+logging.basicConfig(
+    filename=os.path.join(log_path, "refresh.log"),
+    format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S ",
+    level=logging.INFO,
+)
+logger = logging.getLogger()
+KZT = logging.StreamHandler()
+KZT.setLevel(logging.DEBUG)
+logger.addHandler(KZT)
+logging.basicConfig(
+    filename=os.path.join(log_path, "refresh.log"),
+    format="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S ",
+    level=logging.INFO,
+)
+logger = logging.getLogger()
+KZT = logging.StreamHandler()
+KZT.setLevel(logging.DEBUG)
 
 
 # config_name为config.yaml绝对路径
@@ -96,13 +91,11 @@ def getFiles(path):
 
 
 def refresh_single_file(path, file, config_name):
-    logger = refresh_log()
     newfile = refresh_file(path, file, config_name)
     logger.info(f"{newfile}={os.path.basename(file)}+{config_name}")
 
 
 def refresh_all(config_name):
-    logger = refresh_log()
     dir_path = os.getcwd()
     docs_path = os.path.join(dir_path, "docs")
     # config_path = os.path.join(dir_path, "config.yaml")
