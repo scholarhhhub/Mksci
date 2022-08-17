@@ -2,7 +2,7 @@ import logging
 import os
 import uuid
 
-from . import config, pattern
+import config, pattern
 
 all_files = []
 
@@ -37,6 +37,7 @@ def refresh_file(path, file, config_name):
     # Load config
     config_path = os.path.join(os.getcwd(), config_name)
     configs = config.getConfig(config_path)
+    print(configs)
 
     # get file name, generate uuid.
     filename = os.path.basename(file)

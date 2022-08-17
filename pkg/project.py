@@ -3,12 +3,32 @@ import os
 import urllib.request
 from shutil import copyfile
 
+oss_endpoint = "https://mksci.oss-cn-beijing.aliyuncs.com/"
+# put all tuples of the files need to download from alicloud oss in list
+# tuple elements:first element=the filename meeded to be saved to user local; the second element=file path in alicloud oss
+config_list = [
+    ("config.yaml", "config/config.yaml"),
+    ("author.yaml", "config/author.yaml"),
+]
+docs_list = [
+    ("readme_template.md", "doc/docs/readme_template.md"),
+    ("paper_template.text", "doc/paper/paper_template.tex"),
+    ("doc.yaml", "doc/doc.yaml"),
+    (""),
+]
 
-def downloadTemplate(url, path):
+
+def download_template(url, path):
     result = urllib.request.urlretrieve(
         url,
         filename=path,
     )
+
+
+def download_config(osspath, filepath):
+    url = oss_endpoint + osspath
+    # file_path = os.path.join(path, filename)
+    download_template(url, filepath)
 
 
 def new(output_dir=""):
@@ -28,12 +48,20 @@ def new(output_dir=""):
     dirname = output_dir
     output_dir = os.path.join(dir_path, dirname)
     mksci_config = os.path.join(output_dir, ".mksci")
+    config_path = os.path.join(output_dir, "config")
+    docs_path = os.path.join(output_dir, "docs")
+    # if not os.path.exists(docs_path):
+    #     os.mkdir(docs_path)
+    # else:
+    #     None
     if len(output_dir) > 1:
         if not os.path.exists(output_dir):
             logger.info(f"Creating project directory: {output_dir}")
             os.mkdir(output_dir)
             os.mkdir(mksci_config)
-            config_path = os.path.join(output_dir, "config.yaml")
+            os.mkdir(config_path)
+            os.mkdir(docs_path)
+            # config_path = os.path.join(output_dir, "config.yaml")
             # template_path = os.path.join(
             #     os.path.dirname(os.path.abspath(os.path.dirname(__file__))),
             #     "template.yaml",
@@ -42,24 +70,22 @@ def new(output_dir=""):
             #     os.path.dirname(__file__),
             #     "template.yaml",
             # )
-            template_path = (
-                "https://mksci.oss-cn-hangzhou.aliyuncs.com/template.yaml"
-            )
-            logger.info(f"Writing initial config yaml: {config_path}")
+
+            for configg in config_list:
+                logger.info(
+                    f"Writing config yaml: {os.path.join(config_path,configg[0])}"
+                )
+                download_config(
+                    configg[1], os.path.join(config_path, configg[0])
+                )
             # copyfile("../template.yaml",config_path)
             # copyfile(template_path, config_path)
-            downloadTemplate(template_path, config_path)
+            # download_template(template_path, config_path)
         else:
             logger.error(f"Project {output_dir} already exists.")
             # return
     else:
         logger.error("Please enter project name.")
-
-    docs_path = os.path.join(output_dir, "docs")
-    if not os.path.exists(docs_path):
-        os.mkdir(docs_path)
-    else:
-        None
 
 
 def init():
@@ -95,7 +121,7 @@ def init():
     else:
         logger.info(f"Writing initial config yaml: {config_path}")
         # copyfile(template_path, config_path)
-        downloadTemplate(template_path, config_path)
+        download_template(template_path, config_path)
 
     docs_path = os.path.join(dir_path, "docs")
     if not os.path.exists(docs_path):
@@ -107,4 +133,4 @@ def init():
 # 测试代码
 if __name__ == "__main__":
     new("testproject")
-    init()
+    # init()

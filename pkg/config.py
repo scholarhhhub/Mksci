@@ -23,10 +23,10 @@ def getKV(dictionary, k, key, configs):
     if isinstance(v, bool):
         if v:
             if key in configs.keys():
-                configs[key] = configs[key] + "," + v
+                configs[key] = configs[key] + "," + k
             else:
-                configs[key] = v
-            configs[key] = k
+                configs[key] = k
+            # configs[key] = k
         else:
             None
     else:
@@ -61,5 +61,6 @@ def getConfig(config_name):
 
 
 # 测试代码
-# config = getConfig("config.yaml")
-# print(config)
+if __name__ == "__main__":  # pragma: no cover
+    config = getConfig("config.yaml")
+    print(config)
