@@ -1,0 +1,3 @@
+pregex==2.2.1
+PyYAML==6.0
+setuptools==63.4.3
