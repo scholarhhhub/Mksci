@@ -1,10 +1,11 @@
 # from ast import pattern
 from nis import match
-from pregex.classes import AnyLetter, AnyDigit, AnyFrom, AnyWhitespace
-from pregex.quantifiers import Optional, AtLeastAtMost, AtMost
-from pregex.operators import Either
-from pregex.groups import Capture
-from pregex.pre import Pregex
+import pregex
+from pregex.core.classes import AnyLetter, AnyDigit, AnyFrom, AnyWhitespace
+from pregex.core.quantifiers import Optional, AtLeastAtMost, AtMost
+from pregex.core.operators import Either
+from pregex.core.groups import Capture
+from pregex.core.pre import Pregex
 import re
 
 
