@@ -13,6 +13,6 @@ setup(
     include_package_data=True,
     zip_safe=True,
     platforms="any",
-    install_requires=["requests", "docopt>=0.6.2"],
+    install_requires=["requests"],
     entry_points={"console_scripts": ["mksci = pkg.mksci:cli"]},
 )
